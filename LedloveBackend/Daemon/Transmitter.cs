@@ -57,24 +57,25 @@ namespace LedloveBackend.Daemon
                 String responseData = String.Empty;
 
                 // Read the first batch of the TcpServer response bytes.
+                /*
                 Int32 bytes = stream.Read(data, 0, data.Length);
                 responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
                 Console.WriteLine("Received: {0}", responseData);
-
+                */
                 // Close everything.
                 stream.Close();
                 client.Close();
 
                 return true;
-            }
-            catch (ArgumentNullException e)
+            } catch (ArgumentNullException e)
             {
                 Console.WriteLine("ArgumentNullException: {0}", e);
             }
+                /*
             catch (SocketException e)
             {
                 Console.WriteLine("SocketException: {0}", e);
-            }
+            }*/
             return false;
 
         }
