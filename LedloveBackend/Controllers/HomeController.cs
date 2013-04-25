@@ -13,7 +13,7 @@ namespace LedloveBackend.Controllers
         {
             ViewBag.Message = "Sending tweet...";
             ViewBag.Message = Twitter.getLast("awlled");
-            Transmitter.sendMessage(ViewBag.Message);
+            Transmitter.send(ViewBag.Message);
             return View();
         }
 

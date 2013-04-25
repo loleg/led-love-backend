@@ -9,10 +9,24 @@ namespace LedloveBackend.Daemon
     public class Transmitter
     {
         private static String server = "10.10.10.99";
-        private static Int32 port = 9999;
+        private static Int32 port = 10001;
 
-        public static bool sendMessage(String message)
+        public static String checksum(String value)
         {
+            char check = (char)0;
+            for (int index = 0; index < value.Length; index++)
+            {
+                //int code = value[index].GetHashCode();
+                //hashValue = hashValue ^ code;
+                check = (char)(check ^ value[index]);
+            }
+            return String.Format("{0:X}", Convert.ToInt32(check));
+        }
+
+        public static bool send(String text) 
+        {
+            String msgcode = "<L1><PA><FE><MA><WC><FE>" + text;
+            String fullmsg = "<ID00>" + msgcode + checksum(msgcode) + "<E>";
             try
             {
                 // Create a TcpClient.
@@ -22,7 +36,7 @@ namespace LedloveBackend.Daemon
                 TcpClient client = new TcpClient(server, port);
 
                 // Translate the passed message into ASCII and store it as a Byte array.
-                Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
+                Byte[] data = System.Text.Encoding.ASCII.GetBytes(fullmsg);
 
                 // Get a client stream for reading and writing.
                 //  Stream stream = client.GetStream();
@@ -32,7 +46,7 @@ namespace LedloveBackend.Daemon
                 // Send the message to the connected TcpServer. 
                 stream.Write(data, 0, data.Length);
 
-                Console.WriteLine("Sent: {0}", message);
+                Console.WriteLine("Sent: {0}", fullmsg);
 
                 // Receive the TcpServer.response.
 
