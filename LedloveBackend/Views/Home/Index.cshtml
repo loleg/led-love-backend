@@ -2,9 +2,11 @@
     ViewBag.Title = "Apps with Ledlove";
 }
 
-<div class="main">@ViewBag.Message</div>
+<div class="message">@ViewBag.Message</div>
 
-<button onclick="location.reload">Update</button>
+<tt class="response">@ViewBag.Response</tt>
+
+<button onclick="location.reload()">Update</button>
 
 <ul data-role="listview" data-inset="true">
     <li data-role="list-divider">Navigation</li>

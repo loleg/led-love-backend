@@ -52,12 +52,11 @@ namespace LedloveBackend.Daemon
                     stream.Write(data, 0, data.Length);
                     //Console.WriteLine("Sent: {0}", fullmsg);
 
-                    // Buffer to store the response bytes.
-                    data = new Byte[256];
-
                     // Read the first batch of the TcpServer response bytes.
-                    Int32 bytes = stream.Read(data, 0, data.Length);
-                    responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                    // Instead of blocking, use async sockets: http://msdn.microsoft.com/en-us/library/5w7b7x5f.aspx
+                    //data = new Byte[256];
+                    //Int32 bytes = stream.Read(data, 0, data.Length);
+                    //responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
 
                     // Close everything.
                     stream.Close();
