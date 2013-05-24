@@ -12,7 +12,7 @@ namespace LedloveBackend.Daemon
 {
     public class Twitter
     {
-        public static String getLast(String screen_name) {
+        public static String GetLatest(String screen_name) {
             String url = "https://api.twitter.com/1/statuses/user_timeline.json?screen_name=" + screen_name;
            
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -24,7 +24,7 @@ namespace LedloveBackend.Daemon
             request.Credentials = CredentialCache.DefaultCredentials;
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            Console.WriteLine("Connecting to {0} - length is {1}", url, response.ContentLength);
+            //Console.WriteLine("Connecting to {0} - length is {1}", url, response.ContentLength);
             //Console.WriteLine("Content type is {0}", response.ContentType);
 
             // Get the stream associated with the response.

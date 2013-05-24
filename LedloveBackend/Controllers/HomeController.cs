@@ -11,9 +11,11 @@ namespace LedloveBackend.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Sending tweet...";
-            ViewBag.Message = Twitter.getLast("awlled");
-            Transmitter.send(ViewBag.Message);
+            String text = Twitter.GetLatest("awlled");
+            ViewBag.Message = "<blockquote>" + text + "</blockquote>";
+            String reply = new Transmitter().Send(text);
+            ViewBag.Message += "<pre>" + reply + "</pre>";
+
             return View();
         }
 
