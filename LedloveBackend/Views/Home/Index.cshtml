@@ -4,8 +4,9 @@
 
 <div class="message">@ViewBag.Message</div>
 
-<tt class="response">@ViewBag.Response</tt>
- <button onclick="location.reload()">Update</button>
+<blockquote><tt class="response">@ViewBag.Response</tt></blockquote>
+
+<button onclick="location.reload()">Update</button>
 
 <ul data-role="listview" data-inset="true">
     <li data-role="list-divider">Navigation</li>
@@ -16,5 +17,5 @@
 <script language="JavaScript">
     setTimeout(function () {
         location.reload();
-    }, 25000);
+    }, 40000);
 </script>
