@@ -34,7 +34,7 @@ namespace LedloveBackend.Daemon
             String status = "";
             for (int i = 0; i < 3; i++)
             {
-                String st = TransmitCode(texts[i], i);
+                String st = TransmitCode(texts[i], i + 1);
                 if (st == null) { return status; }
                 status += st + " / ";
                 if (st.Contains("Exception")) { return status; }
