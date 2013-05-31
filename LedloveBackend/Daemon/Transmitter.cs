@@ -28,9 +28,39 @@ namespace LedloveBackend.Daemon
             return String.Format("{0:X}", Convert.ToInt32(check));
         }
 
-        public String Send(String text) 
+        public String SendMultiple(List<String> texts)
         {
-            String msgcode = "<L1><PA><FE><MA><WC><FE>" + text;
+           
+            String status = "";
+            for (int i = 0; i < 3; i++)
+            {
+                String st = TransmitCode(texts[i], i);
+                if (st == null) { return status; }
+                status += st + " / ";
+                if (st.Contains("Exception")) { return status; }
+            }
+            return status;
+        }
+
+        public String SendSingle(String text) 
+        {
+            return TransmitCode(text);
+        }
+
+        private String TransmitCode(String text, int line = 1) 
+        {
+            /*
+            * <L1> - which line (1, 2..) the message belongs to
+            * <PA> - which page (A, B..) the message belongs to
+            * <FE> - scroll from right to left
+            * <MA> - display stays steady
+            * <WC> - 2 seconds before scrolling
+            * 
+            * Full reference: https://www.dropbox.com/s/2ptxrj4hkb6pwi6/590996-da-01-en-Communication_protocol_LED_Displ_Board.pdf
+            */
+            String msgcode = "<L" + line.ToString() + ">"
+                + "<PA><FE><MA><WC>" 
+                + text;
             String fullmsg = "<ID00>" + msgcode + Checksum(msgcode) + "<E>";
             String responseData = null;
             try

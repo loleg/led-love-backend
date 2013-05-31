@@ -11,15 +11,15 @@ namespace LedloveBackend.Controllers
     {
         public ActionResult Index()
         {
-            String msg = Twitter.GetLatest("awlled");
+            List<String> msg = Twitter.GetLatest("appswithlove");
             if (msg == null)
             {
                 ViewBag.Message = "Error: could not fetch status";
             }
             else
             {
-                ViewBag.Message = "@awlled: " + msg;
-                ViewBag.Response = new Transmitter().Send(ViewBag.Message);
+                ViewBag.Message = "@awlled: " + msg.Aggregate((i, j) => i + "<br>" + j);
+                ViewBag.Response = new Transmitter().SendMultiple(msg);
             }
             return View();
         }

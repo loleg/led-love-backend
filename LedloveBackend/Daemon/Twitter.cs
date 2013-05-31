@@ -12,7 +12,7 @@ namespace LedloveBackend.Daemon
 {
     public class Twitter
     {
-        public static String GetLatest(String screen_name) {
+        public static List<String> GetLatest(String screen_name) {
             String url = "https://api.twitter.com/1/statuses/user_timeline.json?screen_name=" + screen_name;
            
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -44,7 +44,22 @@ namespace LedloveBackend.Daemon
                 readStream.Close();
 
                 if (jsonDat.Count() > 0) {
-                    return jsonDat[0]["text"].ToString();
+                    List<String> msgs = new List<String>();
+                    for (int x = 0; x < jsonDat.Count(); x++)
+                    {
+                        String text = jsonDat[x]["text"].ToString();
+                        msgs.Add(text);
+
+                        /* // Parse hashtags
+                        JArray arrHashtags = JArray.Parse(entity["hashtags"].ToString());
+                        for (int i = 0; i < arrHashtags.Count(); i++)
+                        {
+                            JObject hashtagstuff = JObject.Parse(arrHashtags[i].ToString());
+                            hashtags.Add(hashtagstuff["text"].ToString());
+                        }
+                         * */
+                    }
+                    return msgs;
                 } else {
                     return null;
                 }
@@ -54,20 +69,6 @@ namespace LedloveBackend.Daemon
                 Console.WriteLine("Error fetching remote data", ex.Message);
                 return null;
             }
-
-            /*
-            for (int x = 0; x < jsonDat.Count(); x++)
-            {
-                    //JObject.Parse(jsonDat[x]["text"].ToString());
-                JArray arrHashtags = JArray.Parse(entity["hashtags"].ToString());
-                for (int i = 0; i < arrHashtags.Count(); i++)
-                {
-                    JObject hashtagstuff = JObject.Parse(arrHashtags[i].ToString());
-                    hashtags.Add(hashtagstuff["text"].ToString());
-                }
-            }
-             * */
-
         }
     }
 }
