@@ -19,7 +19,8 @@ namespace LedloveBackend.Controllers
             else
             {
                 ViewBag.Message = "@awlled: " + msg.Aggregate((i, j) => i + " /// " + j);
-                ViewBag.Response = new Transmitter().SendSingle(msg[0]);
+                //ViewBag.Response = new Transmitter().SendSingle(msg[0]);
+                ViewBag.Response = new Transmitter().SendMultiple(msg);
             }
             return View();
         }
