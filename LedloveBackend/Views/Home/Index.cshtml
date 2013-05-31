@@ -5,11 +5,16 @@
 <div class="message">@ViewBag.Message</div>
 
 <tt class="response">@ViewBag.Response</tt>
-
-<button onclick="location.reload()">Update</button>
+ <button onclick="location.reload()">Update</button>
 
 <ul data-role="listview" data-inset="true">
     <li data-role="list-divider">Navigation</li>
     <li>@Html.ActionLink("About", "About", "Home")</li>
     <!--<li>@Html.ActionLink("Contact", "Contact", "Home")</li>-->
 </ul>
+
+<script language="JavaScript">
+    setTimeout(function () {
+        location.reload();
+    }, 5000);
+</script>

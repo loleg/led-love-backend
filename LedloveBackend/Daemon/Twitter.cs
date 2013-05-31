@@ -22,29 +22,39 @@ namespace LedloveBackend.Daemon
             request.MaximumResponseHeadersLength = 4;
             // Set credentials to use for this request.
             request.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-            //Console.WriteLine("Connecting to {0} - length is {1}", url, response.ContentLength);
-            //Console.WriteLine("Content type is {0}", response.ContentType);
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            
+                //Console.WriteLine("Connecting to {0} - length is {1}", url, response.ContentLength);
+                //Console.WriteLine("Content type is {0}", response.ContentType);
 
-            // Get the stream associated with the response.
-            Stream receiveStream = response.GetResponseStream();
+                // Get the stream associated with the response.
+                Stream receiveStream = response.GetResponseStream();
 
-            // Pipes the stream to a higher level stream reader with the required encoding format. 
-            StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
+                // Pipes the stream to a higher level stream reader with the required encoding format. 
+                StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
 
-            ArrayList hashtags = new ArrayList();
+                ArrayList hashtags = new ArrayList();
 
-            // Reading
-            JArray jsonDat = JArray.Parse(readStream.ReadToEnd());
-            response.Close();
-            readStream.Close();
+                // Reading
+                JArray jsonDat = JArray.Parse(readStream.ReadToEnd());
+                response.Close();
+                readStream.Close();
 
-            if (jsonDat.Count() > 0) {
-                return jsonDat[0]["text"].ToString();
-            } else {
+                if (jsonDat.Count() > 0) {
+                    return jsonDat[0]["text"].ToString();
+                } else {
+                    return null;
+                }
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine("Error fetching remote data", ex.Message);
                 return null;
             }
+
             /*
             for (int x = 0; x < jsonDat.Count(); x++)
             {
